@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YelpCamp</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+    <body>
+        <nav class="navbar navbar-expand-sm navbar-light bg-light">
+            <a href="/" class="navbar-brand">YelpCamp</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <% if(!currentUser) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">Sign Up</a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <span class="nav-link">Welcome, <%= currentUser.username %></span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger py-1" role="alert"><%= error %></div>
+                <% } %>
+            <% if(success && success.length > 0){ %>
+                <div class="alert alert-success py-1" role="alert"><%= success %></div>
+            <% } %>
+        </div>
