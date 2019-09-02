@@ -18,7 +18,8 @@ const indexRoutes = require("./routes/index");
 // seedDB      = require("./seeds"),
 // seedDB();
 
-mongoose.connect("mongodb://localhost/yelp_camp_v12", {
+// mongoose.connect("mongodb://localhost/yelp_camp_v12", {
+mongoose.connect("mongodb+srv://admin:admin@yelpcamp-db-sa4zv.mongodb.net/test?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useCreateIndex: true
 }).then(() => {
