@@ -15,9 +15,11 @@ const campgroundRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
 
+var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v12";
 // mongoose.connect("mongodb://localhost/yelp_camp_v12", {
 // mongoose.connect("mongodb+srv://dev_user:dev123@yelpcamp-db-sa4zv.mongodb.net/test?retryWrites=true&w=majority", {
-mongoose.connect(process.env.DATABASEURL, {
+// mongoose.connect(process.env.DATABASEURL, {
+mongoose.connect(url, {
     useNewUrlParser: true,
     useCreateIndex: true
 }).then(() => {
@@ -56,7 +58,7 @@ app.use(indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-// app.listen(3000, () => {
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(3000, () => {
+// app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Server started");
 });
