@@ -1,3 +1,10 @@
 .img-thumbnail {
     padding: 0;
 }
+
+#header_banner {
+    background-image: url("https://i.imgur.com/ZuprUOd.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
