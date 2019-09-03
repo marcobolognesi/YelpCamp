@@ -1,11 +1,20 @@
 <% include partials/header %>
 
-<h1>This is the Register Page</h1>
-
-<form action="/register" method="POST">
-    <input type="text" name="username" placeholder="username">
-    <input type="password" name="password" placeholder="password">
-    <button>Sign Up</button>
-</form>
+<div class="container mx-auto">
+    <div class="row justify-content-center">
+        <form action="/register" method="POST">
+            <h1 class="text-center">Sign Up</h1>
+            <div class="form-group">
+                <input class="form-control" type="text" name="usernameSignup" placeholder="username">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="username">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <% include partials/footer %>
