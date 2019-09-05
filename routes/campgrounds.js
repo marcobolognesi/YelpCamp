@@ -41,7 +41,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
             console.log(err);
         } else {
             // console.log(newCamp);
-            res.redirect("/");
+            res.redirect("/campgrounds");
         }
     });
 });

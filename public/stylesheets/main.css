@@ -1,5 +1,11 @@
-.img-thumbnail {
-    padding: 0;
+.card-img-index {
+    height: 10rem;
+    object-fit: cover;
+}
+
+.card-img-show {
+    max-height: 30rem;
+    object-fit: cover;
 }
 
 #header_banner {
