@@ -36,7 +36,7 @@
                     <% } else { %>
                         <ul class="navbar-nav ml-auto">                                 
                             <li class="nav-item">
-                                <span class="nav-link">Welcome, <% var name = currentUser.username; var indexToSplit = name.indexOf("@"); %><%= name.slice(0, indexToSplit);%></span>
+                                <span class="nav-link">Welcome, <%= currentUser.firstname; %></span>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">Logout</a>

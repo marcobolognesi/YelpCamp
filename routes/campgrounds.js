@@ -32,6 +32,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     var description = req.body.description;
     var author = {
         id: req.user._id,
+        firstname: req.user.firstname,
         username: req.user.username
     };
     var newCampground = {name:name, price:price, image:image, description:description, author: author};

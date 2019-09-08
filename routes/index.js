@@ -18,14 +18,21 @@ router.get("/register", function(req, res) {
 });
 // sign up logic
 router.post("/register", function(req, res) {
-    var newUser = new User({username: req.body.username});
+    var newUser = new User({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        username: req.body.username,
+        city: req.body.city,
+        state: req.body.state,
+        zip: req.body.zip
+    });
     User.register(newUser, req.body.password, function(err, user) {
         if(err) {
             // req.flash("error", err.message);
             return res.render("register", {error: err.message});
         }
         passport.authenticate("local")(req, res, function() {
-            req.flash("success", "Welcome to YelpCamp " + user.username);
+            req.flash("success", "Welcome to YelpCamp " + user.firstname);
             res.redirect("/campgrounds");
         });
     });
