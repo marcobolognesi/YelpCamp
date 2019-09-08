@@ -8,42 +8,38 @@
     <body>
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
             <div class="container">
-                <a href="/" class="navbar-brand">YelpCamp</a>
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav mr-auto">
+                <div class="row align-items-center w-100">
+                    <div class="col-md-3 col-sm-12">
+                        <ul class="navbar-nav ml-3">
+                            <a href="/" class="navbar-brand">YelpCamp</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/campgrounds">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <% if(!currentUser) { %>
+                    <div class="col pr-0">                                 
+                        <form class="form-inline" action="/login" method="POST"> 
+                            <div class="input-group-sm ml-md-auto ml-sm-0">
+                                <input class="form-control pl-2" type="email" name="username" placeholder="email" required>                                                       
+                                <input class="form-control pl-2 ml-sm-0  ml-md-1 my-1 my-sm-0" type="password" name="password" placeholder="password" required>
+                                <input id="login" class="btn btn-sm btn-outline-light ml-md-1" type="submit" value="Log in">
+                                <a class="btn btn-sm btn-outline-light ml-md-1" href="/register">Sign Up</a>
+                            </div>              
+                        </form>
+                    </div>
+                </div>                    
+                    <% } else { %>
+                    <ul class="navbar-nav ml-auto">                                 
                         <li class="nav-item">
-                            <a class="nav-link" href="/campgrounds">Home</a>
+                            <span class="nav-link">Welcome, <%= currentUser.firstname; %></span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
                         </li>
                     </ul>
-                    <% if(!currentUser) { %>
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <form class="form-inline" action="/login" method="POST"> 
-                                    <div class="input-group-sm">
-                                        <input class="form-control pl-2" type="email" name="username" placeholder="email" required>                                                       
-                                        <input class="form-control pl-2 ml-2" type="password" name="password" placeholder="password" required>
-                                        <input id="login" class="btn btn-sm btn-outline-light" type="submit" value="Log in">
-                                    </div>              
-                                </form>
-                            </li>
-                            <!-- <li class="nav-item">
-                                <a id="login" class="nav-link" href="#">Login</a>
-                            </li> -->
-                            <li class="nav-item">
-                                <a class="btn btn-sm btn-outline-light ml-2" href="/register">Sign Up</a>
-                            </li>
-                        </ul>
-                    <% } else { %>
-                        <ul class="navbar-nav ml-auto">                                 
-                            <li class="nav-item">
-                                <span class="nav-link">Welcome, <%= currentUser.firstname; %></span>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/logout">Logout</a>
-                            </li>
-                        </ul>
                     <% } %>
-                </div>
+                <!-- </div> -->
             </div>
         </nav>
         <div class="container">
