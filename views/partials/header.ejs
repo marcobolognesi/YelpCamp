@@ -15,23 +15,34 @@
                             <a class="nav-link" href="/campgrounds">Home</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav ml-auto">
-                        <% if(!currentUser) { %>
+                    <% if(!currentUser) { %>
+                        <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="/login">Login</a>
+                                <form class="form-inline" action="/login" method="POST"> 
+                                    <div class="input-group-sm">
+                                        <input class="form-control pl-2" type="email" name="username" placeholder="email" required>                                                       
+                                        <input class="form-control pl-2 ml-2" type="password" name="password" placeholder="password" required>
+                                        <input id="login" class="btn btn-sm btn-outline-light" type="submit" value="Log in">
+                                    </div>              
+                                </form>
                             </li>
+                            <!-- <li class="nav-item">
+                                <a id="login" class="nav-link" href="#">Login</a>
+                            </li> -->
                             <li class="nav-item">
-                                <a class="nav-link" href="/register">Sign Up</a>
+                                <a class="btn btn-sm btn-outline-light ml-2" href="/register">Sign Up</a>
                             </li>
-                        <% } else { %>
+                        </ul>
+                    <% } else { %>
+                        <ul class="navbar-nav ml-auto">                                 
                             <li class="nav-item">
                                 <span class="nav-link">Welcome, <% var name = currentUser.username; var indexToSplit = name.indexOf("@"); %><%= name.slice(0, indexToSplit);%></span>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">Logout</a>
                             </li>
-                        <% } %>
-                    </ul>
+                        </ul>
+                    <% } %>
                 </div>
             </div>
         </nav>
@@ -43,4 +54,23 @@
                 <div class="alert alert-success py-1" role="alert"><%= success %></div>
             <% } %>
         </div>
+        <!-- <div id="loginPanel" class="container mx-auto d-none zIndex">
+            <div class="row justify-content-center">
+                <form class="bg-light py-3 px-4" action="/login" method="POST">
+                    <div class="form-group">
+                        <h3 class="text-center">Login</h3>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="email" name="username" placeholder="email">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="password" placeholder="password">
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-primary btn-block" type="submit" value="Log in">
+                    </div>
+                </form>
+            </div>
+        </div> -->
+
                     
