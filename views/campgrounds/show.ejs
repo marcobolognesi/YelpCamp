@@ -1,30 +1,38 @@
 <% include ../partials/header %>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-3 mt-3">
-            <div class="list-group">
-                <li class="list-group-item active">Description</li>
-                <li class="list-group-item">Map</li>
-                <li class="list-group-item">Request Info</li>
+    <div class="row mt-3">
+        <div class="col-sm-12 col-md-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Picture</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Location</a>
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Contact us</a>
+                <!-- <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a> -->
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="card mt-3">
-                <img class="card-img-top card-img-show" src="<%= campground.image %>">
+        <div class="col-sm-12 col-md-9">
+            <div class="card">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <img class="card-img-top card-img-show" src="<%= campground.image %>">
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">Profile</div>
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">Messages</div>
+                    <!-- <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">Settings</div> -->
+                </div>
                 <div class="card-body">
                     <h4 class="card-title float-left"><a href="#"><%= campground.name %></a></h4>
                     <h5 class="text-right">$<%= campground.price %>/night</h5>
                     <p class="card-text pt-2"><%= campground.description %></p>
                     <p>
-                       <em>Added by: <%= campground.author.firstname; %></em>
+                        <em>Added by: <%= campground.author.firstname; %></em>
                     </p>
-                    <div class="text-right mr-3 mb-3">
+                    <div class="text-right mr-3">
                         <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
                             <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">New Comment</a>
                             <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
-                                <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
-                                <button class="btn btn-danger">Delete</button>
+                            <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+                            <button class="btn btn-danger">Delete</button>
                             <% } %>
                         </form>
                     </div>
