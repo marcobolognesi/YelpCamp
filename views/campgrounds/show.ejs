@@ -2,10 +2,10 @@
 
 <div class="container">
     <div class="row mt-3">
-        <div class="col-sm-12 col-md-3">
+        <div class="col-sm-12 col-md-3 pr-md-0">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-picture-tab" data-toggle="pill" href="#v-pills-picture" role="tab" aria-controls="v-pills-picture" aria-selected="true">Picture</a>
-                <a class="nav-link" id="v-pills-location-tab" data-toggle="pill" href="#v-pills-location" role="tab" aria-controls="v-pills-location" aria-selected="false">Location</a>
+                <a class="nav-link active" id="v-pills-location-tab" data-toggle="pill" href="#v-pills-location" role="tab" aria-controls="v-pills-location" aria-selected="false">Location</a>
+                <a class="nav-link" id="v-pills-picture-tab" data-toggle="pill" href="#v-pills-picture" role="tab" aria-controls="v-pills-picture" aria-selected="true">Picture</a>
                 <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Contact us</a>
                 <!-- <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a> -->
             </div>
@@ -13,11 +13,14 @@
         <div class="col-sm-12 col-md-9">
             <div class="card">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-picture" role="tabpanel" aria-labelledby="v-pills-picture-tab">
+                    <div class="tab-pane fade show active" id="v-pills-location" role="tabpanel" aria-labelledby="v-pills-location-tab">
+                        <div id="myMap" style="height: 30rem"></div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-picture" role="tabpanel" aria-labelledby="v-pills-picture-tab">
                         <img class="card-img-top card-img-show" src="<%= campground.image %>">
                     </div>
-                    <div class="tab-pane fade" id="v-pills-location" role="tabpanel" aria-labelledby="v-pills-location-tab">Location</div>
-                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">Messages</div>
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                    </div>
                     <!-- <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">Settings</div> -->
                 </div>
                 <div class="card-body">
@@ -57,6 +60,51 @@
             <% }) %>
         </div>
     </div>
-</div>
+    </div>
+    
+<script type='text/javascript'>
+var map, searchManager;
+
+function GetMap() {
+    map = new Microsoft.Maps.Map('#myMap', {
+        credentials: 'Aqeh1uv8b7ox8SGpdBI4xwTLiAr04gc7JMGRz4TDxQNmbKC1185F0aMdCxFh-OBs'
+    });
+
+    //Make a request to geocode New York, NY.
+    geocodeQuery("New York, NY");
+}
+
+function geocodeQuery(query) {
+    //If search manager is not defined, load the search module.
+    if (!searchManager) {
+        //Create an instance of the search manager and call the geocodeQuery function again.
+        Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+            searchManager = new Microsoft.Maps.Search.SearchManager(map);
+            geocodeQuery(query);
+        });
+    } else {
+        var searchRequest = {
+            where: query,
+            callback: function (r) {
+                //Add the first result to the map and zoom into it.
+                if (r && r.results && r.results.length > 0) {
+                    var pin = new Microsoft.Maps.Pushpin(r.results[0].location);
+                    map.entities.push(pin);
+
+                    map.setView({ bounds: r.results[0].bestView });
+                }
+            },
+            errorCallback: function (e) {
+                //If there is an error, alert the user about it.
+                alert("No results found.");
+            }
+        };
+
+        //Make the geocode request.
+        searchManager.geocode(searchRequest);
+    }
+}
+</script>
+<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 
 <% include ../partials/footer %>

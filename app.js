@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -8,7 +9,7 @@ const methodOverride = require("method-override");
 const flash = require("connect-flash");
 // const Campground  = require("./models/campground");
 // const Comment     = require("./models/comment");
-const User        = require("./models/user");
+const User = require("./models/user");
 
 //requiring routes
 const campgroundRoutes = require("./routes/campgrounds");
@@ -58,7 +59,8 @@ app.use(indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
 // app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Server started");
 });
