@@ -67,9 +67,7 @@
                 var lat = <%= campground.lat %>;
                 var lon = <%= campground.lon %>;
                 var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
-                    /* No need to set credentials if already passed in URL */
                     credentials: 'Aqeh1uv8b7ox8SGpdBI4xwTLiAr04gc7JMGRz4TDxQNmbKC1185F0aMdCxFh-OBs',
-                    // center: new Microsoft.Maps.Location(51.50632, -0.12714),
                     center: new Microsoft.Maps.Location(lat, lon),
                     mapTypeId: Microsoft.Maps.MapTypeId.road,
                     zoom: 10 });
