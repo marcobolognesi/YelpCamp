@@ -25,7 +25,7 @@
                 </div>
                 <div class="card-body">
                     <h4 class="card-title float-left"><a href="#"><%= campground.name %></a></h4>
-                    <h5 class="text-right">$<%= campground.price %>/night</h5>
+                    <h5 class="text-right">£<%= campground.price %>/night</h5>
                     <p class="card-text pt-2"><%= campground.description %></p>
                     <p>
                         <em>Added by: <%= campground.author.firstname; %></em>
@@ -62,49 +62,22 @@
     </div>
     </div>
     
-<script type='text/javascript'>
-var map, searchManager;
-
-function GetMap() {
-    map = new Microsoft.Maps.Map('#myMap', {
-        credentials: 'Aqeh1uv8b7ox8SGpdBI4xwTLiAr04gc7JMGRz4TDxQNmbKC1185F0aMdCxFh-OBs'
-    });
-
-    //Make a request to geocode New York, NY.
-    geocodeQuery("New York, NY");
-}
-
-function geocodeQuery(query) {
-    //If search manager is not defined, load the search module.
-    if (!searchManager) {
-        //Create an instance of the search manager and call the geocodeQuery function again.
-        Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
-            searchManager = new Microsoft.Maps.Search.SearchManager(map);
-            geocodeQuery(query);
-        });
-    } else {
-        var searchRequest = {
-            where: query,
-            callback: function (r) {
-                //Add the first result to the map and zoom into it.
-                if (r && r.results && r.results.length > 0) {
-                    var pin = new Microsoft.Maps.Pushpin(r.results[0].location);
-                    map.entities.push(pin);
-
-                    map.setView({ bounds: r.results[0].bestView });
-                }
-            },
-            errorCallback: function (e) {
-                //If there is an error, alert the user about it.
-                alert("No results found.");
+        <script type='text/javascript'>
+            function loadMapScenario() {
+                var lat = <%= campground.lat %>;
+                var lon = <%= campground.lon %>;
+                var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                    /* No need to set credentials if already passed in URL */
+                    credentials: 'Aqeh1uv8b7ox8SGpdBI4xwTLiAr04gc7JMGRz4TDxQNmbKC1185F0aMdCxFh-OBs',
+                    // center: new Microsoft.Maps.Location(51.50632, -0.12714),
+                    center: new Microsoft.Maps.Location(lat, lon),
+                    mapTypeId: Microsoft.Maps.MapTypeId.road,
+                    zoom: 10 });
+                var center = map.getCenter();
+                var pin = new Microsoft.Maps.Pushpin(center); 
+                map.entities.push(pin);
             }
-        };
-
-        //Make the geocode request.
-        searchManager.geocode(searchRequest);
-    }
-}
-</script>
-<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
-
+        </script>
+        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=loadMapScenario' async defer></script>
+    
 <% include ../partials/footer %>
