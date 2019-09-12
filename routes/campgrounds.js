@@ -1,3 +1,4 @@
+const request = require("request");
 const express = require("express");
 const router = express.Router();
 const Campground  = require("../models/campground");
@@ -26,23 +27,37 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 
 // CREATE campground
 router.post("/", middleware.isLoggedIn, (req, res) => {
-    var name = req.body.name;
-    var price = req.body.price;
-    var image = req.body.image;
-    var description = req.body.description;
-    var author = {
-        id: req.user._id,
-        firstname: req.user.firstname,
-        username: req.user.username
-    };
-    var newCampground = {name:name, price:price, image:image, description:description, author: author};
-    // create a new campground and save to DB
-    Campground.create(newCampground, function(err, newCamp) {
-        if(err) {
-            console.log(err);
+    var location = req.body.location;
+    var url = 'http://dev.virtualearth.net/REST/v1/Locations?query=' + location + '&key=' + process.env.GEOCODER_API_KEY;
+    request(url, (error, response, data) => {
+        if(error){
+            console.log(error);
         } else {
-            // console.log(newCamp);
-            res.redirect("/campgrounds");
+            // console.log(data);
+            if(response.statusCode == 200) {
+                var parsedData = JSON.parse(data);
+                var name = req.body.name;
+                var price = req.body.price;
+                var image = req.body.image;
+                var description = req.body.description;
+                var author = {
+                    id: req.user._id,
+                    firstname: req.user.firstname,
+                    username: req.user.username
+                };
+                var lat = parsedData.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
+                var lon = parsedData.resourceSets[0].resources[0].geocodePoints[0].coordinates[1];      
+                var newCampground = {name:name, price:price, location:location, lat:lat, lon:lon, image:image, description:description, author: author};
+                
+                // create a new campground and save to DB
+                Campground.create(newCampground, function(err, newCamp) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        res.redirect("/campgrounds");
+                    }
+                });
+            }
         }
     });
 });
@@ -67,26 +82,45 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
 });
 // UPDATE CAMPGROUND ROUTE
 router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
-    var name = req.body.name;
-    var price = req.body.price;
-    var image = req.body.image;
-    var description = req.body.description;
-    var data = {name:name, price:price, image:image, description:description};
-    Campground.findByIdAndUpdate(req.params.id, data, function(err, updatedCamp){
-        if(err){
-            res.redirect("/");
+    var location = req.body.location;
+    var url = 'http://dev.virtualearth.net/REST/v1/Locations?query=' + location + '&key=' + process.env.GEOCODER_API_KEY;
+    request(url, (error, response, data) => {
+        if(error){
+            console.log(err);
         } else {
-            res.redirect("/campgrounds/" + req.params.id);
+            if(response.statusCode == 200) {
+                var parsedData = JSON.parse(data);
+                var name = req.body.name;
+                var price = req.body.price;
+                var image = req.body.image;
+                var description = req.body.description;
+                var author = {
+                    id: req.user._id,
+                    firstname: req.user.firstname,
+                    username: req.user.username
+                };
+                var lat = parsedData.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
+                var lon = parsedData.resourceSets[0].resources[0].geocodePoints[0].coordinates[1];      
+                var update = {name:name, price:price, location:location, lat:lat, lon:lon, image:image, description:description, author: author};
+                Campground.findByIdAndUpdate(req.params.id, update, function(err, updatedCamp){
+                    if(err){
+                        res.redirect("/");
+                    } else {
+                        res.redirect("/campgrounds/" + req.params.id);
+                    }
+                });
+            }
         }
     });
 });
+
 // DELETE CAMPGROUND ROUTE
 router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res){
     Campground.findByIdAndRemove(req.params.id, function(err){
         if(err){
             res.redirect("back");
         } else {
-            res.redirect("back");
+            res.redirect("/campgrounds");
         }
     });
 });
