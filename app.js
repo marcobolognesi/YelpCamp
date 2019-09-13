@@ -17,8 +17,8 @@ const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
 
 var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v12";
-// mongoose.connect("mongodb://localhost/yelp_camp_v12", {
-// mongoose.connect("mongodb+srv://dev_user:dev123@yelpcamp-db-sa4zv.mongodb.net/test?retryWrites=true&w=majority", {
+// var url = "mongodb://localhost/yelp_camp_v12";
+//var url = "mongodb+srv://dev_user:dev123@yelpcamp-db-sa4zv.mongodb.net/test?retryWrites=true&w=majority";
 // mongoose.connect(process.env.DATABASEURL, {
 mongoose.connect(url, {
     useNewUrlParser: true,
